@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -47,12 +48,19 @@ public class Main extends Application {
 	
 	public static void lookup(String stagename){
 		
+		String id = "mw-content-text";
+		
+
+		
 		stagename = stagename.replace(" ", "_");
 		
 		try {
 			
 			Document doc = Jsoup.connect("http://en.wikipedia.org/wiki/" + stagename).get();
-			System.out.println(doc);
+			
+			Elements e = doc.select(id);
+			//String title = doc.title();
+			System.out.println(e);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
