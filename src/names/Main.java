@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -29,7 +28,10 @@ public class Main extends Application {
 		Button go = new Button("Go");
 		Label nameout = new Label();
 		
-		go.setOnAction(e -> lookup(namein.getText()));
+		go.setOnAction(e -> {
+			String realname = lookup(namein.getText());
+			nameout.setText(realname); 
+		});
 		
 		VBox layout = new VBox();
 		HBox top = new HBox();
@@ -46,24 +48,21 @@ public class Main extends Application {
 		
 	}
 	
-	public static void lookup(String stagename){
-		
-		String id = "mw-content-text";
-		
-
+	public static String lookup(String stagename){
 		
 		stagename = stagename.replace(" ", "_");
 		
 		try {
 			
 			Document doc = Jsoup.connect("http://en.wikipedia.org/wiki/" + stagename).get();
-			
-			Elements e = doc.select(id);
-			//String title = doc.title();
-			System.out.println(e);
+			String realname = doc.getElementsByClass("nickname").html();
+
+			return realname;			
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace();	
 		}
+		
+		return null;
 	}
 }
