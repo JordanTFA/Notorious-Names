@@ -57,12 +57,16 @@ public class Main extends Application {
 			Document doc = Jsoup.connect("http://en.wikipedia.org/wiki/" + stagename).get();
 			String realname = doc.getElementsByClass("nickname").html();
 
-			return realname;			
+			if(realname.equals("")){
+				return "Error: Disambiguation.";
+			}
+			else{
+				return realname;
+			}
+						
 			
-		} catch (IOException e) {
-			e.printStackTrace();	
+		} catch (IOException e) {	
+			return "Error: Could not find article.";
 		}
-		
-		return null;
 	}
 }
